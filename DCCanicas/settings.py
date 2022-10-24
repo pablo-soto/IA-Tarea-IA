@@ -14,8 +14,8 @@ class Settings():
         # --------------------------------------------------------------------
         # Recomendamos modificar solo las siguientes lineas
         # el IQ del robot indica la profundidad de búsqueda del Minimax
-        self.robot_red_IQ = 3
-        self.robot_black_IQ = 3
+        self.robot_red_IQ = 5
+        self.robot_black_IQ = 5
         # Las posibles inteligencias son Random, Minmax, Minmax-Bonus
-        self.intelligence_robot_red = "Random"
-        self.intelligence_robot_black = "Random" 
+        self.intelligence_robot_red = "Minmax"
+        self.intelligence_robot_black = "Random"

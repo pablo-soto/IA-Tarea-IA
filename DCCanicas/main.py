@@ -88,7 +88,7 @@ def run_game(DCCanicas_settings, SHOW_MENU=True, wins=[0,0,0]):
                 int(reducebutton.rect.centery - 0.5 * surface.get_height())))
         if SHOW_MENU:
             while True: ## este loop es para chequear los eventos dentro del juego, como presionar botones
-                screen_handling.check_events_in_start_screen(stats, startbutton, addbutton, reducebutton) ## chequea los botones de inicio y cambio de tamaño del board
+                screen_handling.check_events_in_start_screen(stats, startbutton, addbutton, reducebutton) ## chequea los botones de inicio y cambio de tamano del board
                 inputfield.blitme()
                 surface = font.render(str(stats.width), True, (154, 202, 64))
                 screen.blit(surface, (int(screen_rect.centerx - 0.5 * surface.get_width()),
@@ -97,7 +97,7 @@ def run_game(DCCanicas_settings, SHOW_MENU=True, wins=[0,0,0]):
                 if stats.game_active: ## si se inicia el juego se deja de chequear los cambios de esta parte
                     break
 
-        ## aquí se inicializan las caracteristicas de la pantalla del juego    
+        ## aqui se inicializan las caracteristicas de la pantalla del juego    
         screen = pygame.display.set_mode((stats.width * DCCanicas_settings.hole_size, stats.height * DCCanicas_settings.hole_size))
         board = Board(screen, stats.width, stats.height, DCCanicas_settings.bg_color, DCCanicas_settings.hole_size, DCCanicas_settings.tile_edge_color)
         board.blitme()
@@ -105,7 +105,7 @@ def run_game(DCCanicas_settings, SHOW_MENU=True, wins=[0,0,0]):
         Status = gameStatus(stats.width, stats.height)
         board.init_board_feature()
 
-        ## AQUÍ SE INICIALIZA LA IA
+        ## AQUi SE INICIALIZA LA IA
         robot_black = Robot(
             Status, 
             board, 

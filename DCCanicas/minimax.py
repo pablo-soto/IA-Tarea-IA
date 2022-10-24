@@ -35,7 +35,7 @@ def minimax(gameStatus, board,  depth, score_function, alpha = -math.inf, beta =
     # Lo primero que haremos será definir cuál es el jugador actual, si es Min o Max. Vamos a asumir
     # que Max será el jugador con canicas negras y Min el jugador con canicas rojas
     # recordar que gameStatus.turn nos dice cuál es el jugador actual
-    maximizing_player = True if gameStatus.turn == 1 else False 
+    maximizing_player = True if gameStatus.turn == 1 else False
 
     # En segundo lugar vamos a obtener todos los movimientos válidos para el turno actual
     # para ello necesitas acceso a gameStatus y board
@@ -45,7 +45,6 @@ def minimax(gameStatus, board,  depth, score_function, alpha = -math.inf, beta =
     # Ahora vamos a agregar una condición de término para la recursión del MiniMax, tenemos dos casos
     # que la profundidad llegue a 0 o que no queden movimientos posibles.
     if depth == 0 or len(valid_locations) == 0: # condicion de término
-        pass
     
         if len(valid_locations) == 0: # No hay más movs posibles
             """
@@ -88,19 +87,21 @@ def minimax(gameStatus, board,  depth, score_function, alpha = -math.inf, beta =
             gameStatus_copy = copy.deepcopy(gameStatus) # hacemos una copia del gameStatus para guardar los movimientos que se realicen
             
             if bf.check_available(gameStatus_copy, x, y, board, play_move=True): # jugamos el movimiento si cumple las reglas
-                pass
                 """
                 En esta parte del código debes ejecutar el movimiento seleccionado, para ello 
                 debes cambiar los atributos correspondientes en gameStatus_copy,
                 es decir los atributos available, occupy, turn y last_opponent
                 según corresponda
                 """
-                #TODO: Ejecutar el movimiento seleccionado
+                gameStatus_copy.available[x][y] = False
+                gameStatus_copy.occupy[x][y] = gameStatus_copy.turn
+                gameStatus_copy.turn = 2 if gameStatus_copy.turn == 1 else 1
+                gameStatus_copy.last_opponent = (x, y)
                 
 
                 """Una vez jugado el movimiento en la copia de gameStatus, debes
                 usar recursión para seguir expandiendo la búsqueda y reducir la profundidad"""
-                #TODO: Usar recursión para seguir expandiendo la búsqueda
+                new_score = minimax(gameStatus_copy, board, depth - 1, score_function, alpha, beta)[1]
                 
 
 
@@ -108,16 +109,17 @@ def minimax(gameStatus, board,  depth, score_function, alpha = -math.inf, beta =
                 actual es mejor que el que se tenia
                 guardado previamente. En caso de que sea mejor, debes guardar el nuevo puntaje en la variable 
                 score y el movimiento que te lleva a dicho puntaje en chosen_mov"""
-                #TODO: Chequear si el puntaje del movimiento en el nodo actual 
-                # es mejor que el que se tenia guardado previamente
+                if new_score > value:
+                    value = new_score
+                    chosen_mov = movement
                 
 
 
                 """Aquí debes implementar la poda alfa-beta (Actividad 2), para hacer el código más eficaz"""
-                #TODO: Implementar la poda alfa-beta
+                alpha = max(alpha, value)
+                if beta <= alpha:
+                    break
        
-
-
         return chosen_mov, value
 
     # Ahora es el caso en que el jugador sea MIN
@@ -130,19 +132,21 @@ def minimax(gameStatus, board,  depth, score_function, alpha = -math.inf, beta =
             y = movement[1]
             gameStatus_copy = copy.deepcopy(gameStatus) # hacemos una copia del gameStatus para guardar los movimientos que se realicen
             if bf.check_available(gameStatus_copy, x, y, board, True):
-                pass
                 """
                 En esta parte del código debes ejecutar el movimiento seleccionado, para ello 
                 debes cambiar los atributos correspondientes en gameStatus_copy,
                 es decir los atributos available, occupy, turn y last_opponent
                 según corresponda
                 """
-                #TODO: Ejecutar el movimiento seleccionado
+                gameStatus_copy.available[x][y] = False
+                gameStatus_copy.occupy[x][y] = gameStatus_copy.turn
+                gameStatus_copy.turn = 2 if gameStatus_copy.turn == 1 else 1
                 
 
                 """Una vez jugado el movimiento en la copia de gameStatus, debes
                 usar recursión para seguir expandiendo la búsqueda y reducir la profundidad"""
-                #TODO: Usar recursión para seguir expandiendo la búsqueda
+                new_score = minimax(gameStatus_copy, board, depth - 1, score_function, alpha, beta)[1]
+
                 
 
                 """Finalmente, debes chequear si el puntaje del movimiento en el nodo
@@ -151,9 +155,16 @@ def minimax(gameStatus, board,  depth, score_function, alpha = -math.inf, beta =
                 score y el movimiento que te lleva a dicho puntaje en chosen_mov"""
                 #TODO: Chequear si el puntaje del movimiento en el nodo actual 
                 # es mejor que el que se tenia guardado previamente
-                
+                if new_score < value:
+                    value = new_score
+                    chosen_mov = movement
 
                 """Aquí debes implementar la poda alfa-beta (Actividad 2), para hacer el código más eficaz"""
-                #TODO: Implementar la poda alfa-beta
+                #poda alfa-beta
+                #beta es math.inf
+                beta = min(beta, value)
+                if beta <= alpha:
+                    break
+
 
         return chosen_mov, value
